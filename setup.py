@@ -13,7 +13,7 @@ if not version:
 
 
 setup(
-    name='pybpodgui_plugin_timeline',
+    name='pybpod-gui-plugin-timeline',
     version=version,
     description="""Trials plot plugin""",
     author='Carlos Mão de Ferro, Ricardo Jorge Vieira Ribeiro',
