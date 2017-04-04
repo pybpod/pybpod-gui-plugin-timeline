@@ -1,0 +1,8 @@
+org.eclipse.core.resources.prefs
+*.log
+.project
+.pydevproject
+*.pyc
+dist
+pycontrol_trials_plot.egg-info
+user_settings.py
