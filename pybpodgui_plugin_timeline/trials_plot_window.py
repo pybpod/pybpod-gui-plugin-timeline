@@ -83,10 +83,14 @@ class TrialsPlotWindow(BaseWidget):
 
 			for message in recent_history:
 				if isinstance(message, StateEntry):
-					self.__add_event(int(round(message.start_timestamp * 1000)),
-					                 int(round(message.end_timestamp * 1000)),
-					                 message.state_id - 1,
-					                 message.state_name)
+					try:
+						self.__add_event(int(round(message.start_timestamp * 1000)),
+						                 int(round(message.end_timestamp * 1000)),
+						                 message.state_id - 1,
+						                 message.state_name)
+					except ValueError as err:
+						logger.warning(str(err))
+
 				self._history_index += 1
 
 		except RunSetupError as err:
