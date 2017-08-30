@@ -15,7 +15,7 @@ else:
 from pyforms.Controls import ControlEventsGraph
 from pyforms import BaseWidget
 
-from pybpodgui_plugin.com.messaging.state_entry import StateEntry
+from pybpodapi.bpod.com.messaging.state_occurrence import StateOccurrence
 from pybpodgui_plugin.api.exceptions.run_setup import RunSetupError
 
 logger = logging.getLogger(__name__)
@@ -43,10 +43,13 @@ class TrialsPlotWindow(BaseWidget):
 
 		self._list_of_states_colors = ['#E0E0E0', '#FFCC99', '#FFFF99', 'CCFF99', '#99FFFF', '#99CCFF', '#FF99CC']
 
+		self._states_names = {}
 		self.read_message_queue()
 
 		self._timer = QTimer()
 		self._timer.timeout.connect(self.read_message_queue)
+
+		
 
 	def show(self):
 		# Prevent the call to be recursive because of the mdi_area
@@ -82,16 +85,16 @@ class TrialsPlotWindow(BaseWidget):
 			states = self.session.setup.board_task.states
 
 			for message in recent_history:
-				if isinstance(message, StateEntry):
-					try:
-						self.__add_event(int(round(message.start_timestamp * 1000)),
-						                 int(round(message.end_timestamp * 1000)),
-						                 message.state_id - 1,
-						                 message.state_name)
-					except ValueError as err:
-						logger.warning(str(err))
+				if isinstance(message, StateOccurrence):
+					if message.state_name not in self._states_names.keys():
+						self._states_names[message.state_name] = len(self._states_names)
 
-				self._history_index += 1
+					self.__add_event(int(round(message.start_timestamp * 1000)),
+									 int(round(message.end_timestamp * 1000)),
+									 self._states_names[message.state_name],
+									 message.state_name)
+					
+					self._history_index += 1
 
 		except RunSetupError as err:
 			logger.error(str(err), exc_info=True)
