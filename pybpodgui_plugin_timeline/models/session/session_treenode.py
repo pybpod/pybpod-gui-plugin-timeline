@@ -38,9 +38,11 @@ class SessionTreeNode(object):
 		else:
 			self.trials_plugin.show()
 
+	"""
 	def node_double_clicked_event(self):
 		super(SessionTreeNode, self).node_double_clicked_event()
 		self.__open_trials_plot_plugin()
+	"""
 
 	def remove(self):
 		if hasattr(self, 'trials_plugin'): self.mainwindow.mdi_area -= self.trials_plugin
