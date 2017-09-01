@@ -8,9 +8,10 @@ import logging
 from pysettings import conf
 
 if conf.PYFORMS_USE_QT5:
-	from PyQt5.QtCore import QTimer
+	from PyQt5.QtCore import QTimer, QEventLoop
 else:
-	from PyQt4.QtCore import QTimer
+	from PyQt4.QtCore import QTimer, QEventLoop
+
 
 from pyforms.Controls import ControlEventsGraph
 from pyforms import BaseWidget
@@ -44,8 +45,7 @@ class TrialsPlotWindow(BaseWidget):
 		self._list_of_states_colors = ['#E0E0E0', '#FFCC99', '#FFFF99', 'CCFF99', '#99FFFF', '#99CCFF', '#FF99CC']
 
 		self._states_names = {}
-		self.read_message_queue()
-
+		
 		self._timer = QTimer()
 		self._timer.timeout.connect(self.read_message_queue)
 
@@ -60,14 +60,17 @@ class TrialsPlotWindow(BaseWidget):
 		self.mainwindow.mdi_area += self
 		del self._show_called
 
-		self._timer.start(conf.TIMELINE_PLUGIN_REFRESH_RATE)
+		self._stop  = False # flag used to close the gui in the middle of a loading
+		self.read_message_queue()
+		if not self._stop: self._timer.start(conf.TIMELINE_PLUGIN_REFRESH_RATE)
 
 	def hide(self):
 		self._timer.stop()
+		self._stop = True
 
-	def beforeClose(self):
+	def before_close_event(self):		
 		self._timer.stop()
-		return False
+		self._stop = True
 
 	def __add_event(self, start_timestamp, end_timestamp, track_id, name):
 
@@ -85,6 +88,8 @@ class TrialsPlotWindow(BaseWidget):
 			states = self.session.setup.board_task.states
 
 			for message in recent_history:
+				if self._stop: return
+
 				if isinstance(message, StateOccurrence):
 					if message.state_name not in self._states_names.keys():
 						self._states_names[message.state_name] = len(self._states_names)
@@ -95,6 +100,8 @@ class TrialsPlotWindow(BaseWidget):
 									 message.state_name)
 					
 					self._history_index += 1
+
+				QEventLoop()
 
 		except RunSetupError as err:
 			logger.error(str(err), exc_info=True)
