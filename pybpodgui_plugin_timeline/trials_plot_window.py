@@ -94,10 +94,13 @@ class TrialsPlotWindow(BaseWidget):
 					if message.state_name not in self._states_names.keys():
 						self._states_names[message.state_name] = len(self._states_names)
 
-					self.__add_event(int(round(message.start_timestamp * 1000)),
-									 int(round(message.end_timestamp * 1000)),
-									 self._states_names[message.state_name],
-									 message.state_name)
+					if not (math.isnan(message.start_timestamp) or math.isnan(message.end_timestamp)):
+						self.__add_event(
+							int(round(message.start_timestamp * 1000)),
+							int(round(message.end_timestamp * 1000)),
+							self._states_names[message.state_name],
+							message.state_name
+						)
 					
 					self._history_index += 1
 
