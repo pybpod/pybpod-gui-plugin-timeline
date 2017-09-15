@@ -3,7 +3,7 @@
 
 """ pycontrolgui_plugin_timeline.trials_plot"""
 
-import logging
+import logging, math
 
 from pysettings import conf
 
