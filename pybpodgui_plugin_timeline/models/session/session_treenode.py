@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class SessionTreeNode(object):
+	
 	def create_treenode(self, tree):
 		"""
 
@@ -26,26 +27,28 @@ class SessionTreeNode(object):
 		:return: this session tree node
 		"""
 		node = super(SessionTreeNode, self).create_treenode(tree)
-		tree.add_popup_menu_option('Bars graph', self.__open_trials_plot_plugin, item=self.node,
-		                           icon=QIcon(conf.TIMELINE_PLUGIN_ICON))
+		self.trialsplot_action = tree.add_popup_menu_option(
+			'Bars graph',
+			self.__open_trials_plot_plugin,
+			item=self.node,
+			icon=QIcon(conf.TIMELINE_PLUGIN_ICON)
+		)
 		return node
 
 	def __open_trials_plot_plugin(self):
-		if not hasattr(self, 'trials_plugin'):
-			self.trials_plugin = TrialsPlotWindow(self)
-			self.trials_plugin.show()
-			self.trials_plugin.subwindow.resize(*conf.TIMELINE_PLUGIN_WINDOW_SIZE)
+		if not hasattr(self, 'trialsplot_win'):
+			self.trialsplot_win = TrialsPlotWindow(self)
+			self.trialsplot_win.show()
+			self.trialsplot_win.subwindow.resize(*conf.TIMELINE_PLUGIN_WINDOW_SIZE)
 		else:
-			self.trials_plugin.show()
+			self.trialsplot_win.show()
 
-	"""
-	def node_double_clicked_event(self):
-		super(SessionTreeNode, self).node_double_clicked_event()
-		self.__open_trials_plot_plugin()
-	"""
+		self.trialsplot_action.setEnabled(False)
+
+
 
 	def remove(self):
-		if hasattr(self, 'trials_plugin'): self.mainwindow.mdi_area -= self.trials_plugin
+		if hasattr(self, 'trialsplot_win'): self.mainwindow.mdi_area -= self.trialsplot_win
 		super(SessionTreeNode, self).remove()
 
 	@property
@@ -55,4 +58,4 @@ class SessionTreeNode(object):
 	@name.setter
 	def name(self, value):
 		super(SessionTreeNode, self.__class__).name.fset(self, value)
-		if hasattr(self, 'trials_plugin'): self.trials_plugin.title = value
+		if hasattr(self, 'trialsplot_win'): self.trialsplot_win.title = value

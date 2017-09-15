@@ -71,6 +71,7 @@ class TrialsPlotWindow(BaseWidget):
 	def before_close_event(self):		
 		self._timer.stop()
 		self._stop = True
+		self.session.trialsplot_action.setEnabled(True)
 
 	def __add_event(self, start_timestamp, end_timestamp, track_id, name):
 
