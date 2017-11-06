@@ -16,8 +16,8 @@ else:
 from pyforms.Controls import ControlEventsGraph
 from pyforms import BaseWidget
 
-from pybpodapi.bpod.com.messaging.state_occurrence import StateOccurrence
-from pybpodgui_plugin.api.exceptions.run_setup import RunSetupError
+from pybpodapi.com.messaging.state_occurrence import StateOccurrence
+from pybpodgui_api.exceptions.run_setup import RunSetupError
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +34,9 @@ class TrialsPlotWindow(BaseWidget):
 		self.session = session
 		self._events = ControlEventsGraph(session.name)
 
-		for state_id, state_name in sorted(self.session.setup.board_task.states.items(), key=lambda x: x[0]):
-			self._events.add_track(state_name)
+		self._events.add_track('')
+		#for state_id, state_name in sorted(self.session.setup.board_task.states.items(), key=lambda x: x[0]):
+		#	self._events.add_track(state_name)
 
 		self._history_index = 0
 		self._last_event = None
@@ -76,8 +77,11 @@ class TrialsPlotWindow(BaseWidget):
 	def __add_event(self, start_timestamp, end_timestamp, track_id, name):
 
 		self._last_event = self._events.add_event(
-			start_timestamp, end_timestamp, track=track_id,
-			title=name, color=self._list_of_states_colors[track_id % len(self._list_of_states_colors)]
+			start_timestamp,
+			end_timestamp,
+			track=track_id,
+			title=name,
+			color=self._list_of_states_colors[track_id % len(self._list_of_states_colors)]
 		)
 		self._events.value = start_timestamp
 
@@ -86,8 +90,7 @@ class TrialsPlotWindow(BaseWidget):
 
 		try:
 			recent_history = self.session.messages_history[self._history_index:]
-			states = self.session.setup.board_task.states
-
+			
 			for message in recent_history:
 				if self._stop: return
 
