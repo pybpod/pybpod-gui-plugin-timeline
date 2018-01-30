@@ -3,9 +3,9 @@
 
 """ pycontrolgui_plugin_timeline.trials_plot"""
 
-from pyforms.Controls import ControlEventsGraph
-from pyforms.Controls import ControlCheckBoxList
-from pyforms.Controls import ControlButton
+from pyforms.controls import ControlEventsGraph
+from pyforms.controls import ControlCheckBoxList
+from pyforms.controls import ControlButton
 from pyforms import BaseWidget
 
 from pybpodapi.com.messaging.state_occurrence import StateOccurrence
