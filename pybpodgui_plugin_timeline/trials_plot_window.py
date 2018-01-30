@@ -13,7 +13,7 @@ else:
 	from PyQt4.QtCore import QTimer, QEventLoop
 
 
-from pyforms.Controls import ControlEventsGraph
+from pyforms.controls import ControlEventsGraph
 from pyforms import BaseWidget
 
 from pybpodapi.com.messaging.state_occurrence import StateOccurrence
