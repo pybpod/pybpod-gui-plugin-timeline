@@ -5,12 +5,9 @@ import logging
 
 from pysettings import conf
 
-if conf.PYFORMS_USE_QT5:
-    from PyQt5.QtGui import QIcon
-else:
-    from PyQt4.QtGui import QIcon
+from AnyQt.QtGui import QIcon
 
-from pyforms.gui.Controls import ControlTree
+from pyforms.controls import ControlTree
 
 from pybpodgui_plugin_timeline.trials_plot_window import TrialsPlotWindow
 
