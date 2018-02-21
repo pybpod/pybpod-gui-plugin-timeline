@@ -18,13 +18,9 @@ import logging
 import math
 from datetime import datetime
 
-from pysettings import conf
+from pyforms import conf
 
-if conf.PYFORMS_USE_QT5:
-    from PyQt5.QtCore import QTimer, QEventLoop
-else:
-    from PyQt4.QtCore import QTimer, QEventLoop
-
+from AnyQt.QtCore import QTimer, QEventLoop
 
 logger = logging.getLogger(__name__)
 

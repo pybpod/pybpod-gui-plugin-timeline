@@ -3,7 +3,7 @@
 
 import logging
 
-from pysettings import conf
+from pyforms import conf
 
 from AnyQt.QtGui import QIcon
 
