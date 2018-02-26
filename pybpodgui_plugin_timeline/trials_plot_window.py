@@ -16,7 +16,7 @@ from pybpodgui_api.exceptions.run_setup import RunSetupError
 
 import logging
 import math
-from datetime import datetime
+from datetime import datetime as datetime_now
 
 from pyforms import conf
 
@@ -54,7 +54,7 @@ class TrialsPlotWindow(BaseWidget):
 
         self._history_index = 0
         self._last_event = None
-        self._session_start_timestamp = datetime.now()
+        self._session_start_timestamp = datetime_now.now()
 
         self.formset = ['_refreshbtn', '_list', '=', '_events']
 
@@ -128,7 +128,7 @@ class TrialsPlotWindow(BaseWidget):
         self._events.value = start_timestamp
 
     def timediff_ms(self, time_f, time_i):
-        diff = datetime.now()
+        diff = datetime_now.now()
 
         diff = time_f - time_i
         elapsed_ms = (diff.days * 86400000) + \
