@@ -6,7 +6,7 @@
 from pyforms.controls import ControlEventsGraph
 from pyforms.controls import ControlCheckBoxList
 from pyforms.controls import ControlButton
-from pyforms import BaseWidget
+from pyforms.basewidget import BaseWidget
 
 from pybpodapi.com.messaging.state_occurrence import StateOccurrence
 from pybpodapi.com.messaging.event_occurrence import EventOccurrence
