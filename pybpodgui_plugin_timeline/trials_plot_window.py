@@ -18,7 +18,7 @@ import logging
 import math
 from datetime import datetime as datetime_now
 
-from pyforms import conf
+from confapp import conf
 
 from AnyQt.QtCore import QTimer, QEventLoop
 

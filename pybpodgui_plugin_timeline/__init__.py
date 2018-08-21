@@ -10,7 +10,7 @@ __email__ = ["cajomferro@gmail.com", "ricardojvr@gmail.com"]
 __status__ = "Development"
 
 import loggingbootstrap
-from pyforms import conf
+from confapp import conf
 
 conf += 'pybpodgui_plugin_timeline.settings'
 conf += 'pybpodgui_plugin_timeline.resources'
